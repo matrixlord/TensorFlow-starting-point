@@ -1,0 +1,21 @@
+version: "3"
+services:
+  ai:
+    build:
+      context: ./ai
+    container_name: ai
+    ports:
+      - "8888:8888"
+      - "6006:6006"
+    volumes:
+      - ./data/ai:/ai:delegated
+    networks:
+      app_net:
+        ipv4_address: 10.50.50.11
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 10.50.50.0/24
