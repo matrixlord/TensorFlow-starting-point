@@ -3,10 +3,9 @@ from images import get_all_image_data, get_test_images
 
 input_n = 40000
 # Hidden layers.
-l1_n = 1200
-l2_n = 1200
-l3_n = 1200
-l4_n = 1200
+l1_n = 500
+l2_n = 500
+l3_n = 500
 
 # Output layer.
 n_classes = 2
@@ -37,15 +36,9 @@ def create_model(data):
         'biases': tf.Variable(tf.random_normal([l3_n]))
     }
 
-    # Forth layer.
-    hidden_4_layer = {
-        'weights': tf.Variable(tf.random_normal([l3_n, l4_n])),
-        'biases': tf.Variable(tf.random_normal([l4_n]))
-    }
-
     # Output layer.
     output_layer = {
-        'weights': tf.Variable(tf.random_normal([l4_n, n_classes])),
+        'weights': tf.Variable(tf.random_normal([l3_n, n_classes])),
         'biases': tf.Variable(tf.random_normal([n_classes]))
     }
 
@@ -58,10 +51,7 @@ def create_model(data):
     l3 = tf.add(tf.matmul(l2, hidden_3_layer['weights']), hidden_3_layer['biases'])
     l3 = tf.nn.relu(l3)
 
-    l4 = tf.add(tf.matmul(l3, hidden_4_layer['weights']), hidden_4_layer['biases'])
-    l4 = tf.nn.relu(l4)
-
-    output = tf.matmul(l4, output_layer['weights']) + output_layer['biases']
+    output = tf.matmul(l3, output_layer['weights']) + output_layer['biases']
 
     return output
 
@@ -75,7 +65,7 @@ def train_model(x):
     # Create prediction plan.
     prediction = create_model(x)
     # Get the cost.
-    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = prediction, labels = y))
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits = prediction, labels = y))
     # Optimize based on local minimum.
     optimizer = tf.train.AdamOptimizer().minimize(cost)
     
@@ -92,11 +82,8 @@ def train_model(x):
             _, epoch_loss = sess.run([optimizer, cost], feed_dict = {x: train_images, y: train_labels})
             print('Epoch: ' + str(epoch) + ' Epoch loss: ' +  str(epoch_loss))
             # If epoch_loss is zero, break the loop.
-            epoch_loss_list.append(epoch_loss)
-            if (len(epoch_loss_list) > 5 and len(set(epoch_loss_list[-5:])) == 1):
+            if (epoch_loss == 0):
                 break
-            # if (epoch_loss == 0):
-            #     break
 
         # Check accuracy.
         correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y, 1))

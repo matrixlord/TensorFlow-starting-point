@@ -1,12 +1,5 @@
 FROM ubuntu:16.04
 
-# Get user id and group id from arguments
-ARG UID
-ARG GID
-
-# Create user.
-RUN groupadd -r serveruser -g $GID && useradd -ms /bin/bash serveruser -u $UID -g $GID
-
 # Install some packages.
 RUN apt-get update && apt-get install -y --no-install-recommends git openjdk-8-jdk curl \
     python-numpy python-dev python-pip python-wheel python-setuptools patch && \
@@ -34,18 +27,12 @@ RUN pip --no-cache-dir install --upgrade /tmp/tensorflow_pkg/tensorflow-*.whl &&
     rm -rf /tmp/tensorflow_pkg && \
     rm -rf /root/.cache
 
-# Install Keras.
-RUN pip install keras
+# Install some libraries.
+RUN pip install keras h5py Pillow
 
-# Install h5py
-RUN pip install h5py
+WORKDIR /data
 
-# Copy keys and create main path.
-RUN mkdir /home/serveruser/ai && chown -R serveruser:serveruser /home/serveruser
-
-WORKDIR /home/serveruser/ai
-
-EXPOSE 80 443 8888 6006
+EXPOSE 8888 6006
 
 # Just to keep it running.
 CMD tail -f /dev/null

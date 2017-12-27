@@ -24,7 +24,6 @@ def get_images_from_path(folder_path):
         try:
             images.append([get_file_data(folder_path + '/' + filename), filename])
         except IOError:
-            # print('Found one non image file.')
             pass
     return images
 
