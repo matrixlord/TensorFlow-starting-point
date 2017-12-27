@@ -31,14 +31,11 @@ python tf.py
 
 # Some things to consider
 
-This is used as a starting point for machine learning projects, for this reason,
-Keras and some other libraries come preinstalled. You may remove them at your
+This is used as a starting point for machine learning projects. For this reason,
+Keras and some other libraries come pre-installed. You may remove them at your
 own discretion.
 
-The model is trained with a handful of images, that I personally shot to avoid copyright infringement stuff. You may improve the accuracy by adding more photos.
+The model is trained with a handful of photos, that I personally shot to avoid copyright infringement stuff. You may improve the accuracy by adding more photos.
 
-# By SocialNerds
-* [SocialNerds.gr](https://www.socialnerds.gr/)
-* [YouTube](https://www.youtube.com/SocialNerdsGR)
-* [Facebook](https://www.facebook.com/SocialNerdsGR)
-* [Twitter](https://twitter.com/socialnerdsgr)
+# Maintainer
+[Thanos Nokas](https://www.linkedin.com/in/thanosnokas)
